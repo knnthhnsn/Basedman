@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basedman - The Meme Hero of Kekspace!</title>
+    <link rel="icon" type="image/png" href="baseman.png">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Base styles: Green and grey/black theme with white text */
@@ -19,6 +20,33 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom Matrix Cursor */
+        #matrix-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 40px;
+            height: 40px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-align: center;
+            line-height: 10px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         /* Loading screen */
@@ -57,7 +85,6 @@
             10% { transform: rotate(270deg) scale(0.5); }
             20% { transform: rotate(2000deg) scale(0.2); }
         }
-        
 
         @keyframes pulsate {
             0% { transform: translateX(-50%) scale(0.6); }
@@ -100,6 +127,15 @@
             font-size: 4rem;
             text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
             margin-top: 40px; /* Move title down */
+            word-wrap: break-word; /* Ensure text wraps */
+        }
+
+        h1 .title-main {
+            font-size: 10rem; /* Default large size for "Basedman" */
+        }
+
+        h1 .title-sub {
+            font-size: 1.4rem; /* Default size for subtitle */
         }
 
         h2 {
@@ -131,8 +167,10 @@
             transform: translateY(0);
         }
 
-        #based-color{ color: cyan;
-    text-shadow: cyan 0px 0px 2px, cyan 0px 0px 30px;}
+        #based-color {
+            color: cyan;
+            text-shadow: cyan 0px 0px 2px, cyan 0px 0px 30px;
+        }
 
         .hero-img {
             display: block;
@@ -147,7 +185,6 @@
         .hero-img:hover {
             transform: scale(1.05) rotate(3deg);
         }
-
 
         button {
             background: linear-gradient(90deg, #00ff00, #008000); /* Green gradient */
@@ -176,7 +213,6 @@
             background: rgba(51, 51, 51, 0.2); /* Semi-transparent grey */
             backdrop-filter: blur(10px); /* Blurry glass effect */
             border-bottom: 1px solid rgba(0, 255, 255, 0.2); /* Subtle cyan border */
-            /* box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);  Cyan glow shadow */
             text-align: center;
             padding: 15px 0;
             z-index: 1001; /* Above other elements */
@@ -193,7 +229,7 @@
 
         .menu-button {
             background: linear-gradient(90deg, cyan, #00b8b8); /* Cyan gradient */
-             color: #000000;
+            color: #000000;
             border: none;
             padding: 10px 20px;
             font-size: 1rem;
@@ -218,7 +254,7 @@
         }
 
         .menu-button.sound-toggle.on {
-             color: #ffffff;
+            color: #ffffff;
             background: rgba(0, 255, 0, 0.5); /* Green tint when on */
         }
 
@@ -473,6 +509,8 @@
             font-size: 3rem;
             text-shadow: 0 0 15px #00ff00;
             animation: flickerText 2s infinite;
+            position: relative;
+            z-index: 23;
         }
 
         @keyframes flickerText {
@@ -485,6 +523,8 @@
             color: #cccccc;
             margin-bottom: 30px;
             animation: crypticFade 4s infinite;
+            position: relative;
+            z-index: 23;
         }
 
         @keyframes crypticFade {
@@ -509,7 +549,6 @@
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-
 
         .glowing-orb {
             position: absolute;
@@ -536,11 +575,6 @@
             animation: pulseGlowLarge 1.5s infinite alternate;
         }
 
-        @keyframes orbPulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
         .shadowy-figure {
             position: absolute;
             bottom: 0;
@@ -557,7 +591,8 @@
             text-shadow: 0 0 5px #00ff00;
             animation: glitchText 1s infinite;
             margin-top: 20px;
-            z-index: 22;
+            position: relative;
+            z-index: 23;
         }
 
         @keyframes glitchText {
@@ -593,7 +628,7 @@
             transform: translate(-50%, -50%);
             width: 150px;
             height: 150px;
-            background: radial-gradient(circle, rgba(0,255,0,0.3), transparent);
+            background: radial-gradient(circle, rgba(0, 255, 0, 0.3), transparent);
             border-radius: 50%;
             animation: hologramFlicker 1.5s infinite;
             z-index: 22;
@@ -641,33 +676,114 @@
             15% { clip-path: inset(5% 0 5% 0); }
             20% { clip-path: inset(0 0 0 0); }
         }
+
+        @media screen and (max-width: 768px) {
+            [style*="text-align: left;"], [style*="text-align: right;"] {
+                text-align: center !important;
+            }
+
+            .character-img {
+                display: block;
+                margin: 0 auto 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                max-width: 90vw; /* Prevent overflow */
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            h1 .title-main {
+                font-size: 4rem !important; /* Override for "Basedman" */
+            }
+
+            h1 .title-sub {
+                font-size: 1rem !important; /* Override for subtitle */
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 30px;
+                margin-bottom: 50px;
+            }
+
+            .hero-img {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .menu-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            #main-content {
+                padding: 100px 10px 40px;
+            }
+
+            #bman-token {
+                padding: 40px;
+            }
+
+            #bman-token h2 {
+                font-size: 3rem;
+            }
+
+            #basedai-brain {
+                padding: 30px;
+            }
+
+            #basedai-brain .encrypted-text,
+            #basedai-brain .encrypted-message,
+            #basedai-brain .whispering-voices {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin: 20px 0;
+                z-index: 23;
+            }
+
+            .design-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            #matrix-cursor {
+                width: 30px;
+                height: 30px;
+                font-size: 10px;
+            }
+
+            .cursor-trail {
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-     <!-- Sticky Menu -->
+    <!-- Sticky Menu -->
     <div class="menu-buttons">
-       
         <button class="menu-button" onclick="navigateTo('story', 1)">Story</button>
-       
         <button class="menu-button" onclick="navigateTo('bman-token', 2)">$BMAN Token</button>
-        <!-- 
-        hide for now: 
-        <button class="menu-button" onclick="navigateTo('who-is-basedman', 3)">Who is Basedman?</button>
-        <button class="menu-button" onclick="navigateTo('gadgets', 4)">Gadgets and Powers</button>
-        <button class="menu-button" onclick="navigateTo('adventures', 5)">Adventures</button>
-         -->
         <button class="menu-button" onclick="navigateTo('nft-collection', 6)">NFT Collection</button>
-            <!-- 
-        hide for now: 
-        <button class="menu-button" onclick="navigateTo('basedai-brain', 7)">BasedAI Brain</button>
-        <button class="menu-button" onclick="navigateTo('kekspace', 8)">Explore Kekspace</button>
-         -->
         <button class="menu-button" onclick="navigateTo('gallery', 9)">Meme Gallery</button>
-
-         <!-- 
-        hide for now:
-        <button class="menu-button" onclick="navigateTo('community', 10)">Kekspace and Twitter Raids</button>
-           -->
         <button id="sound-toggle" class="menu-button sound-toggle on" onclick="toggleSound()">Sound: On</button>
     </div>
 
@@ -691,20 +807,23 @@
     <audio id="hover-sound" src="button-clicked.m4a"></audio>
     <audio id="click-sound" src="soundwoosh.m4a"></audio>
     <audio id="music-click-sound" src="soundwoosh.m4a"></audio>
-
-      <audio id="kitten" src="kitten.m4a"></audio>
+    <audio id="kitten" src="kitten.m4a"></audio>
     <audio id="gun" src="gun.m4a"></audio>
     <audio id="ai" src="ai.m4a"></audio>
     <audio id="ribbit" src="ribbit.m4a"></audio>
-  
-   
 
+    <!-- Matrix Cursor -->
+    <div id="matrix-cursor"></div>
 
     <!-- Main Content -->
     <div id="main-content">
         <header>
-            <h1 style="letter-spacing: 10px;"> <strong style="font-size: 10rem;">Basedman</strong> <br> <strong style="font-size: 1.4rem;">The Hero of</strong> <strong id="based-color"> Based </strong></h1>
-          
+            <h1 style="letter-spacing: 10px;">
+                <strong class="title-main">Basedman</strong>
+                <br>
+                <strong class="title-sub">The Hero of</strong>
+                <strong id="based-color"> Based </strong>
+            </h1>
             <img class="hero-img" src="basedman.png" alt="Basedman" onclick="navigateTo('bman-token', 2)">
         </header>
         
@@ -728,9 +847,9 @@
             <h2>The Story of Based Man</h2>
             <p>The Story of Based Man Based Man was conceived by Pepecoin community member, Deadguy, shortly after the release of Pepepaint on the Pepecoin OS. The Pepecoin community was hungry for a protect0000r, and what better man for the job than one that is BASED. Sporting his signature blue water, flame, bullet, grenade, and rocket proof suit, red skivvies, and black mask, he is ready to take on anyone or anything posing a threat to the frogs of Kekistan. While most threats can be neutralized with his 69th degree black belt martial art skills and superfrog agility, some require the use of the ultra rare ZAP gun. He also carries a special knife with a blade made of Unobtanium, always prepared to free a ladyfrog in distress. Whether roaming the streets of Kekspace, or swimming in the ponds of Kekhalla, Based Man will be watching over the frens of Pepecoin, protecting them from any and all who dare to threaten their comfy, moisturized way of life.</p>
         </section>
-<div style="text-align: left; margin: 20px 0;">
-<img class="character-img" src="skyscraper-image.png" alt="Hopping Basedman" onclick="characterClick(0)">
-</div>
+        <div style="text-align: left; margin: 20px 0;">
+            <img class="character-img" src="skyscraper-image.png" alt="Hopping Basedman" onclick="characterClick(0)">
+        </div>
 
         <section id="who-is-basedman">
             <h2>Who is Basedman?</h2>
@@ -751,9 +870,9 @@
             </ul>
             <p>His weakness? Low-effort memes—they drain his energy and make him croak in disappointment. But with the support of the Pepecoin community, Basedman always bounces back stronger.</p>
         </section>
-<div style="text-align: right; margin: 20px 0;">
-<img class="character-img" src="gun.png" alt="Caped Basedman" onclick="characterClick(1)">
-</div>
+        <div style="text-align: right; margin: 20px 0;">
+            <img class="character-img" src="gun.png" alt="Caped Basedman" onclick="characterClick(1)">
+        </div>
 
         <section id="adventures">
             <h2>Basedman's Adventures</h2>
@@ -783,9 +902,9 @@
             <button onclick="window.open('https://www.nachonft.xyz/collection/0x853efb327ea5d8766265b78c5b9092e2a85a8f70', '_blank')">View on NachosNFT</button>
             <button onclick="window.open('https://aftermint.trade/collection/0x853efb327ea5d8766265b78c5b9092e2a85a8f70', '_blank')">View on Aftermint</button>
         </section>
-<div style="text-align: left; margin: 20px 0;">
-<img class="character-img" src="brain-logo.webp" alt="Gun Basedman" onclick="characterClick(2)">
-</div>
+        <div style="text-align: left; margin: 20px 0;">
+            <img class="character-img" src="brain-logo.webp" alt="Gun Basedman" onclick="characterClick(2)">
+        </div>
 
         <section id="basedai-brain">
             <div class="mysterious-overlay"></div>
@@ -810,9 +929,9 @@
             <p>In Kekspace, failure means hilarious frog puns, but success levels up your based-ness. Dive in and become part of the legend!</p>
             <img class="hero-img" src="sexy-based.jpg" alt="Basedman in Kekspace" onclick="flyBasedman()">
         </section>
-<div style="text-align: right; margin: 20px 0;">
-<img class="character-img" src="heart.png" alt="Heart Basedman" onclick="characterClick(3)">
-</div>
+        <div style="text-align: right; margin: 20px 0;">
+            <img class="character-img" src="heart.png" alt="Heart Basedman" onclick="characterClick(3)">
+        </div>
 
         <section id="gallery">
             <h2>Meme Gallery</h2>
@@ -920,6 +1039,65 @@
             setInterval(draw, 33);
         }
 
+        // Matrix Cursor Effect
+        function initMatrixCursor() {
+            const cursor = document.getElementById('matrix-cursor');
+            const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$BMAN';
+            const maxTrails = 10;
+            const trails = [];
+
+            // Update cursor text
+            function updateCursorText() {
+                let matrixText = '';
+                for (let i = 0; i < 1; i++) {
+                    matrixText += characters.charAt(Math.floor(Math.random() * characters.length)) + '<br>';
+                }
+                cursor.innerHTML = matrixText;
+            }
+
+            // Create trail element
+            function createTrail(x, y) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.innerHTML = characters.charAt(Math.floor(Math.random() * characters.length));
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                document.body.appendChild(trail);
+                trails.push(trail);
+
+                // Fade out and remove trail
+                setTimeout(() => {
+                    trail.style.opacity = '1';
+                    setTimeout(() => {
+                        trail.style.opacity = '0';
+                        setTimeout(() => {
+                            trail.remove();
+                            trails.splice(trails.indexOf(trail), 1);
+                        }, 500);
+                    }, 300);
+                }, 0);
+
+                // Limit number of trails
+                if (trails.length > maxTrails) {
+                    const oldestTrail = trails.shift();
+                    oldestTrail.remove();
+                }
+            }
+
+            // Update cursor position and trails
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                if (Math.random() > 0.7) { // Randomly spawn trails
+                    createTrail(e.clientX, e.clientY);
+                }
+            });
+
+            // Periodically update cursor text
+            setInterval(updateCursorText, 100);
+            updateCursorText(); // Initial update
+        }
+
         // Loading screen logic
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -929,6 +1107,7 @@
                 animateSections();
                 updateSoundToggle();
                 initMatrixRain();
+                initMatrixCursor();
             }, 3000);
         });
 
@@ -1178,7 +1357,7 @@
             }
         }
 
-         // Unique animations for each design
+        // Unique animations for each design
         function animateDesign(designId) {
             playRandomAnimationSound();
             const designs = document.querySelectorAll('.design-img');
