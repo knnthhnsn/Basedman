@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basedman - The Meme Hero of Kekspace!</title>
-    <link rel="icon" type="image/png" href="baseman.png">
+    <link rel="icon" type="image/png" href="basedman.png">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Base styles: Green and grey/black theme with white text */
@@ -1434,24 +1434,24 @@
                 fullImg.style.transform = 'scale(1)';
                 fullImg.style.filter = 'brightness(1) contrast(1.5) drop-shadow(0 0 20px rgba(0, 255, 0, 0.8))';
             }, 50);
-            // Add more frequent glitch effect with Basedman image replacement
+
+           // Add more frequent glitch effect with Basedman image replacement
             function addGlitch() {
                 const glitchInterval = setInterval(() => {
                     if (Math.random() > 0.6) { // More frequent glitches
-                        const offsetX = Math.random() * 20 - 10;
-                        const offsetY = Math.random() * 20 - 10;
-                        const rotate = Math.random() * 4 - 2;
-                        fullImg.src = 'basedman.png'; // Replace with Basedman image
-                        fullImg.style.borderRadius = '0'; // Remove border radius for glitch
-                        fullImg.style.boxShadow = 'none'; // Remove glowing square
+                        const offsetX = Math.random() * 10 - 5;
+                        const offsetY = Math.random() * 10 - 5;
+                        const rotate = Math.random() * 2 - 1;
+                        const originalSrc = fullImg.src;
+                        fullImg.src = 'basedman-white-eye.png'; // Replace with Basedman image
                         fullImg.style.transform = `scale(1) translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
-                        fullImg.style.filter = `brightness(1.5) contrast(2) drop-shadow(0 0 30px rgba(0, 255, 0, 1))`; // Intense green glow during glitch
-                        fullImg.style.filter += ' drop-shadow(5px 0 0 red) drop-shadow(-5px 0 0 blue) drop-shadow(0 5px 0 green)';
+                        fullImg.style.boxShadow = 'none'; // Remove glowing borders
+                        fullImg.style.borderRadius = '0'; // Ensure no border radius affects the image
                         setTimeout(() => {
-                            fullImg.src = clickedImg.src; // Revert to original image
-                            fullImg.style.borderRadius = '8px'; // Restore border radius
-                            fullImg.style.boxShadow = '0 0 30px rgba(0, 255, 0, 0.6)'; // Restore glowing square
+                            fullImg.src = originalSrc; // Revert to original image
                             fullImg.style.transform = 'scale(1)';
+                            fullImg.style.boxShadow = '0 0 30px rgba(0, 255, 0, 0.6)'; // Restore glowing square for original image
+                            fullImg.style.borderRadius = '8px'; // Restore border radius for original image
                             fullImg.style.filter = 'brightness(1) contrast(1.5) drop-shadow(0 0 20px rgba(0, 255, 0, 0.8))';
                         }, 500 + Math.random() * 300); // Longer glitch duration (500-800ms)
                     }
@@ -1505,12 +1505,18 @@
                     document.head.appendChild(pulseStyle);
                     uniqueEffect = pulseStyle;
                     break;
-                case 4: // Fragmented reveal
-                    fullImg.style.clipPath = 'polygon(0 0, 100% 0, 100% 100%, 0 100%)';
+                case 4: // New fade and scale animation
+                    fullImg.style.opacity = '0';
+                    fullImg.style.transform = 'scale(0.8) rotate(0deg)';
+                    fullImg.style.transition = 'opacity 1s ease, transform 1s ease';
                     setTimeout(() => {
-                        fullImg.style.transition = 'clip-path 1.5s ease';
-                        fullImg.style.clipPath = 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'; // Full
-                    }, 500);
+                        fullImg.style.opacity = '1';
+                        fullImg.style.transform = 'scale(1.05) rotate(5deg)';
+                        setTimeout(() => {
+                            fullImg.style.transform = 'scale(1) rotate(0deg)';
+                        }, 1500); // Reset to original scale and rotation after 1.5s
+                    }, 100);
+                    uniqueEffect = null; // No additional cleanup needed
                     break;
                 case 5: // Slow motion zoom with code intensification
                     fullImg.animate([
@@ -1545,7 +1551,6 @@
                 setTimeout(() => overlay.remove(), 500);
             });
         }
-        
         // Add event listeners to menu buttons for hover sound and navigation
         document.addEventListener('DOMContentLoaded', () => {
             const menuButtons = document.querySelectorAll('.menu-button');
